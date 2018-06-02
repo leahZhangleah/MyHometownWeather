@@ -1,5 +1,6 @@
 package com.example.android.myhometownweather;
 
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.myhometownweather.sync.NetworkUtils;
+import com.example.android.myhometownweather.sync.WeatherIconAsyncTask;
+
 import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class WeatherFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
@@ -35,22 +40,28 @@ public class WeatherFragment extends android.support.v4.app.Fragment implements 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View weather = inflater.inflate(R.layout.weather_fragment,container,false);
-        TextView mLocationTv, mTemperatureTv, mMainDescriptionTv,mFunnyCommentTv,mWeatherIconV;
+        TextView mLocationTv, mTemperatureTv, mMainDescriptionTv,mFunnyCommentTv;
+        ImageView mWeatherIconV;
         mLocationTv = (TextView) weather.findViewById(R.id.location_tv);
         mTemperatureTv = (TextView) weather.findViewById(R.id.temperature_tv);
         mMainDescriptionTv = (TextView)weather.findViewById(R.id.main_description_tv);
         mFunnyCommentTv =(TextView) weather.findViewById(R.id.funny_comments);
-        mWeatherIconV = (TextView) weather.findViewById(R.id.weather_icon);
+        mWeatherIconV = (ImageView) weather.findViewById(R.id.weather_icon);
         //todo: set data for different views based on the data return http request and json reading
         if (mWeathers!=null){
             Weather currentWeather = mWeathers.get(0);
             mLocationTv.setText(currentWeather.getmCity()+","+currentWeather.getmCountry());
             mTemperatureTv.setText(String.valueOf(currentWeather.getmTemperature()));
             mMainDescriptionTv.setText(currentWeather.getmDescription());
+            int id = currentWeather.getmIconId();
+            int iconResId = WeatherDataTransUtils.transformIdToLargeImage(id);
+            mWeatherIconV.setImageResource(iconResId);
+            //String icon = currentWeather.getmIcon();
+            //URL iconURL = NetworkUtils.buildIconURL(icon);
+            //new WeatherIconAsyncTask(mWeatherIconV).execute(iconURL);
             //weatherFont =Typeface.createFromAsset(getContext().getAssets(),"fonts/weathericons-regualr-webfont.ttf");
             //mWeatherIconV.setTypeface(weatherFont);
             //todo: don't know if this is correct
-            mWeatherIconV.setText(currentWeather.getmIcon());
         }
         //weather.setOnClickListener(this);
         return weather;
@@ -60,4 +71,6 @@ public class WeatherFragment extends android.support.v4.app.Fragment implements 
     public void onClick(View v) {
         //todo:set intent to open a detail activity shared for weather days
     }
+
+
 }

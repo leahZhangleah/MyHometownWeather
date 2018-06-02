@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.CardView;
 
+import com.example.android.myhometownweather.sync.NetworkUtils;
+import com.example.android.myhometownweather.sync.WeatherIconAsyncTask;
+
+import java.net.URL;
 import java.util.ArrayList;
 
 public class ForecastFragmentAdapter extends RecyclerView.Adapter<ForecastFragmentAdapter.ForecastViewHolder>{
@@ -41,7 +45,12 @@ public class ForecastFragmentAdapter extends RecyclerView.Adapter<ForecastFragme
             //weatherFont =Typeface.createFromAsset(mContext.getAssets(),"fonts/weathericons-regualr-webfont.ttf");
             //holder.mForecastWeatherIcon.setTypeface(weatherFont);
             //todo: don't know if this is correct
-            holder.mForecastWeatherIcon.setText(forecast.getmIcon());
+            int id = forecast.getmIconId();
+            int iconResId = WeatherDataTransUtils.transformIdToSmallImage(id);
+            holder.mForecastWeatherIcon.setImageResource(iconResId);
+            //String icon = forecast.getmIcon();
+            //URL iconURL = NetworkUtils.buildIconURL(icon);
+            //new WeatherIconAsyncTask(holder.mForecastWeatherIcon).execute(iconURL);
         }
     }
 
@@ -54,7 +63,8 @@ public class ForecastFragmentAdapter extends RecyclerView.Adapter<ForecastFragme
     }
 
     public class ForecastViewHolder extends RecyclerView.ViewHolder {
-        TextView mDateTv, mMinTempTv, mMaxTempTv,mForecastWeatherIcon;
+        TextView mDateTv, mMinTempTv, mMaxTempTv;
+        ImageView mForecastWeatherIcon;
         public ForecastViewHolder(View itemView) {
             super(itemView);
             mDateTv = itemView.findViewById(R.id.date_tv);

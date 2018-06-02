@@ -37,7 +37,6 @@ public class ForecastFragment extends android.support.v4.app.Fragment {
         ForecastFragmentAdapter adapter = new ForecastFragmentAdapter(getContext());
         adapter.setmForecasts(mWeathers);
         recyclerView.setAdapter(adapter);
-        //todo:adapter
         return forecast;
     }
 }

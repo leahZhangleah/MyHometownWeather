@@ -5,15 +5,15 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class Weather implements Parcelable {
-    private String mDescription, mIcon, mCountry, mCity;
-    private int mHumidity;
+    private String mDescription, mCountry, mCity;
+    private int mHumidity,mIconId;
     private double mPressure,mTemperature, mWindSpeed,mMinTemp,mMaxTemp;
     private long mDate;
 
-    public Weather(String description, String icon, String country, String city, int humidity,
+    public Weather(String description, int iconId, String country, String city, int humidity,
                    double pressure, double temperature, double windSpeed, double minTemp, double maxTemp, long date) {
         mDescription= description;
-        mIcon=icon;
+        mIconId=iconId;
         mCountry=country;
         mCity=city;
         mHumidity=humidity;
@@ -30,8 +30,8 @@ public class Weather implements Parcelable {
         return mDescription;
     }
 
-    public String getmIcon() {
-        return mIcon;
+    public int getmIconId() {
+        return mIconId;
     }
 
     public String getmCountry() {
@@ -72,7 +72,7 @@ public class Weather implements Parcelable {
 
     private Weather(Parcel source){
         mDescription = source.readString();
-        mIcon = source.readString();
+        mIconId = source.readInt();
         mCountry = source.readString();
         mCity = source.readString();
         mHumidity = source.readInt();
@@ -93,7 +93,7 @@ public class Weather implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mDescription);
-        dest.writeString(mIcon);
+        dest.writeInt(mIconId);
         dest.writeString(mCountry);
         dest.writeString(mCity);
         dest.writeInt(mHumidity);

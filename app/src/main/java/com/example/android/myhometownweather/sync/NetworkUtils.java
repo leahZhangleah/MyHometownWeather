@@ -25,6 +25,7 @@ public class NetworkUtils {
     private static final String QUERY_PARAM = "q";
     private static final String API_PARAM = "key";
     private static final String API_KEY = "62fc4256-8f8c-11e5-8994-feff819cdc9f";
+    private static final String ICON_BASE_URL = "http://openweathermap.org/img/w";
 
     public static URL buildUrl(String locationQuery) {
         Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
@@ -38,6 +39,17 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         Log.v(TAG, "Built URI " + url);
+        return url;
+    }
+
+    public static URL buildIconURL(String icon){
+        Uri builtUri = Uri.parse(ICON_BASE_URL).buildUpon().appendPath(icon+".png").build();
+        URL url = null;
+        try{
+            url = new URL(builtUri.toString());
+        }catch (MalformedURLException e){
+            //todo:catch error
+        }
         return url;
     }
 
@@ -119,7 +131,7 @@ public class NetworkUtils {
                 Log.i("NetworkUtils","the description is: "+mainDescription);
                 String icon = weatherItem.getString("icon");
                 Log.i("NetworkUtils","the icon is: "+icon);
-                Weather weatherArrayListItem = new Weather(mainDescription,icon,country,cityName,humidity,pressure,dayTemp,speed,min,max,date);
+                Weather weatherArrayListItem = new Weather(mainDescription,id,country,cityName,humidity,pressure,dayTemp,speed,min,max,date);
                 weatherArrayList.add(weatherArrayListItem);
             }
         }catch (JSONException e){
