@@ -8,10 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.android.myhometownweather.sync.NetworkUtils;
 import com.example.android.myhometownweather.sync.WeatherAsyncTaskLoader;
@@ -26,11 +28,9 @@ public class MainFragment extends Fragment{
         @NonNull
         @Override
         public Loader<ArrayList<Weather>> onCreateLoader(int id, @Nullable Bundle args) {
-            //todo:get current location
             if (id == LOADER_VERSION){
-                String currentLocation = "Ningbo";
+                String currentLocation = MainActivity.locations.get(0);
                 URL urlToQuery = NetworkUtils.buildUrl(currentLocation);
-                Log.i("MainFragment","the query url is:"+urlToQuery);
                 return new WeatherAsyncTaskLoader(getContext(),urlToQuery);
             }
             return null;
@@ -39,14 +39,10 @@ public class MainFragment extends Fragment{
         @Override
         public void onLoadFinished(@NonNull Loader<ArrayList<Weather>> loader, ArrayList<Weather> data) {
             if (data != null){
-                //weathers = data;
-                Log.i("MainFragment","onloadfinished is called");
+                weathers = data;
                 FragmentManager manager = getChildFragmentManager();
                 FragmentTransaction wTransaction = manager.beginTransaction();
                 FragmentTransaction fTransaction = manager.beginTransaction();
-                //WeatherFragment weatherFragment = new WeatherFragment();
-                //ForecastFragment forecastFragment = new ForecastFragment();
-                Log.i("MainFragment","onviewcreated is called");
                 WeatherFragment weatherFragment = WeatherFragment.newInstance(data);
                 ForecastFragment forecastFragment = ForecastFragment.newInstance(data);
                 wTransaction.replace(R.id.weather_fragment_container,weatherFragment).commit();
@@ -69,7 +65,6 @@ public class MainFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment,container,false);
-        Log.i("MainFragment","oncreateview is called");
         return rootView;
     }
 

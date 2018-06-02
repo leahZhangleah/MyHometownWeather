@@ -23,7 +23,6 @@ public class Weather implements Parcelable {
         mMinTemp=minTemp;
         mMaxTemp=maxTemp;
         mDate=date;
-        Log.i("Weather","the long constructor is called");
     }
 
     public String getmDescription() {
@@ -82,11 +81,9 @@ public class Weather implements Parcelable {
         mMinTemp = source.readDouble();
         mMaxTemp = source.readDouble();
         mDate = source.readLong();
-        Log.i("Weather","the short constructor is called");
     }
     @Override
     public int describeContents() {
-        Log.i("Weather","describe contents is called");
         return 0;
     }
 
@@ -103,19 +100,16 @@ public class Weather implements Parcelable {
         dest.writeDouble(mMinTemp);
         dest.writeDouble(mMaxTemp);
         dest.writeLong(mDate);
-        Log.i("Weather","write to parcel is called");
     }
     public static final Parcelable.Creator<Weather> CREATOR = new Parcelable.Creator<Weather>(){
 
         @Override
         public Weather createFromParcel(Parcel source) {
-            Log.i("Weather","create from parcel is called");
             return new Weather(source);
         }
 
         @Override
         public Weather[] newArray(int size) {
-            Log.i("Weather","new array is called");
             return new Weather[size];
         }
     };

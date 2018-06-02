@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.CardView;
 
-import com.example.android.myhometownweather.sync.NetworkUtils;
-import com.example.android.myhometownweather.sync.WeatherIconAsyncTask;
-
-import java.net.URL;
 import java.util.ArrayList;
 
 public class ForecastFragmentAdapter extends RecyclerView.Adapter<ForecastFragmentAdapter.ForecastViewHolder>{
-    Typeface weatherFont;
     Context mContext;
     ArrayList<Weather> mForecasts;
     public ForecastFragmentAdapter(Context context){
@@ -40,17 +35,13 @@ public class ForecastFragmentAdapter extends RecyclerView.Adapter<ForecastFragme
             long date = forecast.getmDate();
             String dayOfWeek = WeatherDataTransUtils.transformDate(date);
             holder.mDateTv.setText(dayOfWeek);
-            holder.mMinTempTv.setText(String.valueOf(forecast.getmMinTemp()));
-            holder.mMaxTempTv.setText(String.valueOf(forecast.getmMaxTemp()));
-            //weatherFont =Typeface.createFromAsset(mContext.getAssets(),"fonts/weathericons-regualr-webfont.ttf");
-            //holder.mForecastWeatherIcon.setTypeface(weatherFont);
-            //todo: don't know if this is correct
+            int minTemp = (int) Math.round(forecast.getmMinTemp());
+            int maxTemp =(int)Math.round(forecast.getmMaxTemp());
+            holder.mMinTempTv.setText(String.valueOf(minTemp)+"°");
+            holder.mMaxTempTv.setText(String.valueOf(maxTemp)+"°");
             int id = forecast.getmIconId();
             int iconResId = WeatherDataTransUtils.transformIdToSmallImage(id);
             holder.mForecastWeatherIcon.setImageResource(iconResId);
-            //String icon = forecast.getmIcon();
-            //URL iconURL = NetworkUtils.buildIconURL(icon);
-            //new WeatherIconAsyncTask(holder.mForecastWeatherIcon).execute(iconURL);
         }
     }
 

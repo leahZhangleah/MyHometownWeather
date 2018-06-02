@@ -25,7 +25,6 @@ public class NetworkUtils {
     private static final String QUERY_PARAM = "q";
     private static final String API_PARAM = "key";
     private static final String API_KEY = "62fc4256-8f8c-11e5-8994-feff819cdc9f";
-    private static final String ICON_BASE_URL = "http://openweathermap.org/img/w";
 
     public static URL buildUrl(String locationQuery) {
         Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
@@ -39,17 +38,6 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         Log.v(TAG, "Built URI " + url);
-        return url;
-    }
-
-    public static URL buildIconURL(String icon){
-        Uri builtUri = Uri.parse(ICON_BASE_URL).buildUpon().appendPath(icon+".png").build();
-        URL url = null;
-        try{
-            url = new URL(builtUri.toString());
-        }catch (MalformedURLException e){
-            //todo:catch error
-        }
         return url;
     }
 
@@ -83,7 +71,6 @@ public class NetworkUtils {
 
     private static ArrayList<Weather> extractDataFromString(String jsonResponse){
         if (jsonResponse == null){
-            Log.i(TAG,"the jsonresponse is null");
             return null;
         }
         ArrayList<Weather> weatherArrayList = new ArrayList<>();
@@ -91,7 +78,6 @@ public class NetworkUtils {
             JSONObject object = new JSONObject(jsonResponse);
             if (object.has("cod")){
                 int errorCode =object.getInt("cod");
-                Log.i("NetworkUtils","error code is: "+errorCode);
                 switch (errorCode){
                     case HttpURLConnection.HTTP_OK:
                         break;
@@ -102,35 +88,23 @@ public class NetworkUtils {
             }
             JSONObject city = object.getJSONObject("city");
             String cityName = city.getString("name");
-            Log.i("NetworkUtils","the city is: "+cityName);
             String country = city.getString("country");
-            Log.i("NetworkUtils","the country is: "+country);
             JSONArray lists = object.getJSONArray("list");
             for (int i=0; i<lists.length();i++){
                 JSONObject list = (JSONObject) lists.get(i);
                 long date = list.getLong("dt");
-                Log.i("NetworkUtils","the date is: "+date);
                 double pressure = list.getDouble("pressure");
-                Log.i("NetworkUtils","the pressure is: "+pressure);
                 int humidity = list.getInt("humidity");
-                Log.i("NetworkUtils","the humidity is: "+humidity);
                 double speed = list.getDouble("speed");
-                Log.i("NetworkUtils","the speed is: "+speed);
                 JSONObject temp = list.getJSONObject("temp");
                 double dayTemp = temp.getDouble("day");
-                Log.i("NetworkUtils","the day temp is: "+dayTemp);
                 double min = temp.getDouble("min");
-                Log.i("NetworkUtils","the min is: "+min);
                 double max = temp.getDouble("max");
-                Log.i("NetworkUtils","the max is: "+max);
                 JSONArray weatherArray = list.getJSONArray("weather");
                 JSONObject weatherItem = (JSONObject) weatherArray.get(0);
                 int id = weatherItem.getInt("id");
-                Log.i("NetworkUtils","the id is: "+id);
                 String mainDescription = weatherItem.getString("main");
-                Log.i("NetworkUtils","the description is: "+mainDescription);
                 String icon = weatherItem.getString("icon");
-                Log.i("NetworkUtils","the icon is: "+icon);
                 Weather weatherArrayListItem = new Weather(mainDescription,id,country,cityName,humidity,pressure,dayTemp,speed,min,max,date);
                 weatherArrayList.add(weatherArrayListItem);
             }

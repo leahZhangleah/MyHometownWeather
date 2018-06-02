@@ -10,10 +10,11 @@ import android.view.View;
 
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
     //todo:depend on how many cities are added into viewpager
-    private final int TOTAL_PAGES = 2;
+    private int totalPages;
 
-    public MainViewPagerAdapter(FragmentManager fm) {
+    public MainViewPagerAdapter(FragmentManager fm,int totalLocationNum) {
         super(fm);
+        totalPages=totalLocationNum;
     }
 
     @Override
@@ -28,6 +29,6 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return TOTAL_PAGES;
+        return totalPages;
     }
 }

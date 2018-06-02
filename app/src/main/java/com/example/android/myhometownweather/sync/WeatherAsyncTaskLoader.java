@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class WeatherAsyncTaskLoader extends android.support.v4.content.AsyncTaskLoader<ArrayList<Weather>> {
     URL urlToQuery;
     ArrayList<Weather> mWeathers;
-    private FileObserver mFileObserver;
     public WeatherAsyncTaskLoader(Context context, URL url) {
         super(context);
         urlToQuery=url;
@@ -28,19 +27,6 @@ public class WeatherAsyncTaskLoader extends android.support.v4.content.AsyncTask
         }else{
             forceLoad();
         }
-        /*if (mFileObserver==null){
-            String path = new File(getContext().getFilesDir(),"downloaded.json").getPath();
-            mFileObserver = new FileObserver(path) {
-                @Override
-                public void onEvent(int event, @Nullable String path) {
-                    onContentChanged();
-                }
-            };
-            mFileObserver.startWatching();
-            if (takeContentChanged() || weathers == null){
-                forceLoad();
-            }
-        }*/
     }
 
     @Override
@@ -57,12 +43,4 @@ public class WeatherAsyncTaskLoader extends android.support.v4.content.AsyncTask
         mWeathers = data;
         super.deliverResult(data);
     }
-
-   /* @Override
-    protected void onReset() {
-        if (mFileObserver!=null){
-            mFileObserver.stopWatching();
-            mFileObserver=null;
-        }
-    }*/
 }

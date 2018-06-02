@@ -1,27 +1,19 @@
 package com.example.android.myhometownweather;
 
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.example.android.myhometownweather.sync.NetworkUtils;
-import com.example.android.myhometownweather.sync.WeatherIconAsyncTask;
-
-import java.lang.reflect.Array;
-import java.net.URL;
 import java.util.ArrayList;
 
-public class WeatherFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
+public class WeatherFragment extends android.support.v4.app.Fragment{
     ArrayList<Weather> mWeathers;
-    Typeface weatherFont;
+    Weather currentWeather;
     public static WeatherFragment newInstance(ArrayList<Weather> weathers){
         WeatherFragment weatherFragment = new WeatherFragment();
         Bundle args = new Bundle();
@@ -40,37 +32,52 @@ public class WeatherFragment extends android.support.v4.app.Fragment implements 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View weather = inflater.inflate(R.layout.weather_fragment,container,false);
-        TextView mLocationTv, mTemperatureTv, mMainDescriptionTv,mFunnyCommentTv;
-        ImageView mWeatherIconV;
-        mLocationTv = (TextView) weather.findViewById(R.id.location_tv);
-        mTemperatureTv = (TextView) weather.findViewById(R.id.temperature_tv);
-        mMainDescriptionTv = (TextView)weather.findViewById(R.id.main_description_tv);
-        mFunnyCommentTv =(TextView) weather.findViewById(R.id.funny_comments);
-        mWeatherIconV = (ImageView) weather.findViewById(R.id.weather_icon);
-        //todo: set data for different views based on the data return http request and json reading
+        LinearLayout layout = weather.findViewById(R.id.weather_fragment_layout);
+        TextView mLocationTv, mTemperatureTv, mMinTempTv,mMainDescriptionTv,mFunnyCommentTv, mWindSpeedTv, mPressureTv,mHumidityTv;
+        ImageView mWeatherIconV, mFunnyCommentIconV;
+        mLocationTv = weather.findViewById(R.id.location_tv);
+        mTemperatureTv = weather.findViewById(R.id.temperature_tv);
+        mMinTempTv = weather.findViewById(R.id.min_temperature_tv);
+        mMainDescriptionTv = weather.findViewById(R.id.main_description_tv);
+        //todo
+        mFunnyCommentIconV = weather.findViewById(R.id.funny_comments_icon);
+        mFunnyCommentTv = weather.findViewById(R.id.funny_comments);
+        mWeatherIconV = weather.findViewById(R.id.weather_icon);
+        mWindSpeedTv= weather.findViewById(R.id.wind_speed);
+        mPressureTv= weather.findViewById(R.id.pressure);
+        mHumidityTv= weather.findViewById(R.id.humidity);
         if (mWeathers!=null){
-            Weather currentWeather = mWeathers.get(0);
+            currentWeather = mWeathers.get(0);
+            //location
             mLocationTv.setText(currentWeather.getmCity()+","+currentWeather.getmCountry());
-            mTemperatureTv.setText(String.valueOf(currentWeather.getmTemperature()));
+            //temperature
+            int minTemp = (int) Math.round(currentWeather.getmMinTemp());
+            int currentTemp =(int)Math.round(currentWeather.getmTemperature());
+            mTemperatureTv.setText(String.valueOf(currentTemp)+"°"+"/");
+            mMinTempTv.setText(String.valueOf(minTemp)+"°");
+            //funny comment
+            int commentIconId = WeatherDataTransUtils.transformTempToIcon(currentTemp);
+            String comment = WeatherDataTransUtils.transformTempToComment(getContext(),currentTemp);
+            mFunnyCommentTv.setText(comment);
+            mFunnyCommentIconV.setImageResource(commentIconId);
+            //weather
             mMainDescriptionTv.setText(currentWeather.getmDescription());
+            //icon
             int id = currentWeather.getmIconId();
             int iconResId = WeatherDataTransUtils.transformIdToLargeImage(id);
             mWeatherIconV.setImageResource(iconResId);
-            //String icon = currentWeather.getmIcon();
-            //URL iconURL = NetworkUtils.buildIconURL(icon);
-            //new WeatherIconAsyncTask(mWeatherIconV).execute(iconURL);
-            //weatherFont =Typeface.createFromAsset(getContext().getAssets(),"fonts/weathericons-regualr-webfont.ttf");
-            //mWeatherIconV.setTypeface(weatherFont);
-            //todo: don't know if this is correct
+            //wind speed
+            double speed = currentWeather.getmWindSpeed();
+            mWindSpeedTv.setText(String.valueOf(speed)+" m/s");
+            //pressure
+            double pressure = currentWeather.getmPressure();
+            mPressureTv.setText(String.valueOf(pressure)+" hPa");
+            //humidity
+            mHumidityTv.setText(String.valueOf(currentWeather.getmHumidity())+" %");
+            //fragment background
+            int backgroundId = WeatherDataTransUtils.transformIdToBackground(id);
+            layout.setBackgroundResource(backgroundId);
         }
-        //weather.setOnClickListener(this);
         return weather;
     }
-
-    @Override
-    public void onClick(View v) {
-        //todo:set intent to open a detail activity shared for weather days
-    }
-
-
 }
