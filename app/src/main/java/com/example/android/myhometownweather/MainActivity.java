@@ -1,11 +1,13 @@
 package com.example.android.myhometownweather;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //todo:get user's permission to use location and read data
         locations.add(currentLocation);
         mMainViewPager = findViewById(R.id.main_view_pager);
         TabLayout tabDots = findViewById(R.id.tab_dots);
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         mMainViewPager.setAdapter(adapter);
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_plus,menu);
         return true;
@@ -36,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_plus:
-                //todo:in the future
+            //todo:in the future
                 //open an activity, select a location and return a string to locations list
+
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

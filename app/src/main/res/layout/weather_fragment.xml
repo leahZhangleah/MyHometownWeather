@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/weather_fragment_layout"
-    android:background="@drawable/sunny_bg">
+    android:id="@+id/weather_fragment_layout">
 
     <TextView
         android:id="@+id/location_tv"
@@ -121,16 +120,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="@dimen/horizontal_margin">
+        android:layout_marginTop="@dimen/horizontal_margin"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/funny_comments_icon"/>
+            android:id="@+id/funny_comments_icon" />
         <TextView
             android:id="@+id/funny_comments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="funny comments"
+            tools:text="comments"
             android:textColor="@android:color/white"
             android:layout_marginLeft="@dimen/half_vertical_margin"/>
     </LinearLayout>

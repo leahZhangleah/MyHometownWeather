@@ -30,7 +30,7 @@ public class ForecastFragmentAdapter extends RecyclerView.Adapter<ForecastFragme
 
     @Override
     public void onBindViewHolder(@NonNull ForecastViewHolder holder, int position) {
-        Weather forecast = mForecasts.get(position);
+        Weather forecast = mForecasts.get(position+1);
         if (forecast!= null){
             long date = forecast.getmDate();
             String dayOfWeek = WeatherDataTransUtils.transformDate(date);
@@ -42,13 +42,14 @@ public class ForecastFragmentAdapter extends RecyclerView.Adapter<ForecastFragme
             int id = forecast.getmIconId();
             int iconResId = WeatherDataTransUtils.transformIdToSmallImage(id);
             holder.mForecastWeatherIcon.setImageResource(iconResId);
+            Log.i("forecastadapter","i am called at position:"+position);
         }
     }
 
     @Override
     public int getItemCount() {
         if (mForecasts!=null){
-            return mForecasts.size();
+            return mForecasts.size()-1;
         }
         return 0;
     }
