@@ -46,7 +46,7 @@
             tools:text="tuesday"
             android:gravity="center"
             android:textSize="@dimen/forecast_item_min_temp_tv_size"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/white"
             android:layout_marginTop="@dimen/card_view_margin"
             android:layout_marginBottom="@dimen/card_view_margin"/>
     </LinearLayout>

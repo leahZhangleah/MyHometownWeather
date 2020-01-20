@@ -8,12 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.example.android.myhometownweather.sync.NetworkUtils;
 import com.example.android.myhometownweather.sync.WeatherAsyncTaskLoader;
@@ -30,7 +27,7 @@ public class MainFragment extends Fragment{
         public Loader<ArrayList<Weather>> onCreateLoader(int id, @Nullable Bundle args) {
             if (id == LOADER_VERSION){
                 String currentLocation = MainActivity.locations.get(0);
-                URL urlToQuery = NetworkUtils.buildUrl(currentLocation);
+                URL urlToQuery = NetworkUtils.buildUrl(currentLocation,getString(R.string.api_key));
                 return new WeatherAsyncTaskLoader(getContext(),urlToQuery);
             }
             return null;
