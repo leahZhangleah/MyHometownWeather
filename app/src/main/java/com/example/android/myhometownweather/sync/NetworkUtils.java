@@ -24,12 +24,12 @@ public class NetworkUtils {
     private static final String FORECAST_BASE_URL = "http://worksample-api.herokuapp.com/forecast/daily";
     private static final String QUERY_PARAM = "q";
     private static final String API_PARAM = "key";
+    private static final String API_KEY = "******";
 
-
-    public static URL buildUrl(String locationQuery,String apiKey) {
+    public static URL buildUrl(String locationQuery) {
         Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, locationQuery)
-                .appendQueryParameter(API_PARAM, apiKey)
+                .appendQueryParameter(API_PARAM, API_KEY)
                 .build();
         URL url = null;
         try {
